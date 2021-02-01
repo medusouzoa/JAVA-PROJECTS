@@ -1,0 +1,260 @@
+import java.util.Scanner;
+
+public class Digits {
+
+    public static int digitZero(int n) {
+        int x;
+        int length = String.valueOf(n).length();
+        int zero = (int) Math.pow(10, length - 1);
+        if (n > 0) {
+
+            x = n / zero;
+        } else {
+            return n;
+        }
+
+        return x;
+
+    }
+
+    public static int digiti(int a, int b) {
+
+        String str = Integer.toString(a);
+        int x = str.charAt(b) - '0';
+
+        return x;
+    }
+
+    public static int digitLimitSum(int n, int k) {
+
+        int length = String.valueOf(n).length();
+        int sum = 0;
+        for (int i = 0; i < length; i++) {
+
+            if (n % 10 > k) {
+                sum += (n % 10);
+                n /= 10;
+            } else {
+                n /= 10;
+
+            }
+        }
+
+        return sum;
+
+    }
+
+    public static int digitCount(int i, int z) {
+        int count = 0;
+
+        while (i > 0) {
+            if (i % 10 == z) {
+                i /= 10;
+                count++;
+            } else {
+                i /= 10;
+            }
+        }
+
+        return count;
+    }
+
+    public static void RemoveDigitK(int a, int b) {
+        String str = Integer.toString(a);
+        int x;
+        for (int i = 0; i < str.length(); i++) {
+            if (i != (str.length() - 1 - b)) {
+                x = str.charAt(str.length() - (str.length() - i)) - '0';
+                System.out.print(x);
+            }
+        }
+
+    }
+
+    public static void RemoveDigit(int a, int b) {
+
+        String str = Integer.toString(a);
+
+        for (int i = 0; i < str.length(); i++) {
+            if ((str.charAt(i) - '0') != b) {
+                System.out.print((str.charAt(i) - '0'));
+            }
+        }
+
+    }
+
+    public static boolean isPalindrome(int number) {
+
+        boolean isPalindrome;
+        int length = String.valueOf(number).length();
+        int value = number;
+        int left, nextvalue = 0;
+        for (int i = 0; i < length; i++) {
+
+            left = number % 10;
+            nextvalue = nextvalue * 10 + left;
+            number = number / 10;
+        }
+        isPalindrome = nextvalue == value;
+
+        return isPalindrome;
+    }
+
+    public static void reverse(int chosen) {
+
+        while (chosen > 0) {
+            System.out.print((chosen % 10));
+            chosen /= 10;
+        }
+        System.out.println("");
+
+    }
+
+    public static void randomNumber(int k) {
+       String number = "";
+       
+        int random = (int) (Math.random() * 9 + 1);
+        int digit ;
+
+        if (random == 0) {
+            while (random == 0) {
+                random = (int) (Math.random() * 9 + 1);
+            }
+            number = number + random;
+        } else {
+            number = number + random;
+        }
+
+        int m = 0;
+        boolean repetion = false;
+        while (m < k - 1) {
+            digit = (int) (Math.random() * 9 + 1);
+
+            for (int j = 0; j < number.length(); j++) {
+                String comp = String.valueOf(number.charAt(j));
+                int a = Integer.parseInt(comp);
+                if (a != digit) {
+                    repetion = false;
+
+                } else {
+                    repetion = true;
+                    break;
+                }
+            }
+            if (!repetion) {
+                number = number + digit;
+                m += 1;
+            }
+
+        }
+
+        System.out.println("Number: " + number);
+ 
+    }
+
+        
+
+    
+
+    public static int CharDigitSum(String n) {
+
+        int x = n.length() - 1;
+        int sum = 0;
+        char letter;
+        for (; x >= 0; x--) {
+            letter = n.charAt(x);
+            sum += letter;
+
+        }
+        return sum;
+    }
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Digits Library Menu: \n"
+                + "1.Least significant digit \n"
+                + "2.ith digit \n"
+                + "3.sum of digits with limit \n"
+                + "4.Count digit \n"
+                + "5.Remove digitK \n"
+                + "6.Remove digit with value \n"
+                + "7.Generate random number \n"
+                + "8.Reverse digits \n"
+                + "9.Check palindrome \n"
+                + "10.Char digit sum \n"
+                + "11.Quit \n");
+        System.out.println("Choose action to perform: ");
+        int action = input.nextInt();
+        if (action == 1) {
+            System.out.println("Enter a number: ");
+            int n = input.nextInt();
+            System.out.println("Least significant digit is " + digitZero(n));
+
+        } else if (action == 2) {
+            System.out.println("enter your number: ");
+            int a = input.nextInt();
+            System.out.println("enter the second value: ");
+            int b = input.nextInt();
+            System.out.println(b + "th digit is= " + digiti(a, b));
+        } else if (action == 3) {
+            System.out.println("Enter a number: ");
+            int n = input.nextInt();
+
+            System.out.println("Enter the limit: ");
+            int k = input.nextInt();
+            System.out.println("Sum of digits with limit is " + digitLimitSum(n, k));
+        } else if (action == 4) {
+
+            System.out.println("Enter a number: ");
+            int i = input.nextInt();
+            System.out.println("Enter the integer which you want to count: ");
+            int z = input.nextInt();
+            System.out.println(z + " exists " + digitCount(i, z) + " times in " + i);
+        } else if (action == 5) {
+
+            System.out.println("first: ");
+            int a = input.nextInt();
+            System.out.println("next: ");
+            int b = input.nextInt();
+            System.out.println(b + "th digit is removed from " + a);
+            System.out.println("The result is: ");
+            RemoveDigitK(a, b);
+            System.out.println("   ");
+
+        } else if (action == 6) {
+            System.out.println("Enter your number: ");
+
+            int a = input.nextInt();
+            System.out.println("Enter the digit which you want to remove: ");
+            int b = input.nextInt();
+            System.out.print("The final number is: ");
+            RemoveDigit(a, b);
+            System.out.print("   ");
+        } else if (action == 7) {
+            System.out.println("How many digits will be? ");
+            int k = input.nextInt();
+
+            randomNumber(k);
+        } else if (action == 8) {
+            System.out.println("After you choose your number, you will see the reverse.");
+            System.out.println("Let's choose: ");
+
+            int chosen = input.nextInt();
+            reverse(chosen);
+        } else if (action == 9) {
+            System.out.println("Choose your number: ");
+            int number = input.nextInt();
+            System.out.println("Is " + number + " palindrome? " + isPalindrome(number));
+        } else if (action == 10) {
+
+            System.out.println("Enter your word to calculate: ");
+            String n = input.next();
+            System.out.println("Here is your result! : " + (int) CharDigitSum(n));
+        } else if (action == 11) {
+            System.out.println("Ok,good bye.");
+        } else {
+            System.err.println("Something went wrong...");
+        }
+    }
+
+}
