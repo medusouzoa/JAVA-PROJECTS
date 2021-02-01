@@ -1,0 +1,63 @@
+import java.util.Scanner;
+
+public class DART_GAME{
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.println("WELCOME TO THE DART GAME!");
+        System.out.println("How many trials would you like to do? : ");
+        int num = input.nextInt();//asking trial count
+
+        int A = 0, B = 0, C = 0, D = 0, E = 0, F = 0, undecided = 0;
+
+        double x, y;
+
+        for (int z = 1; z <= num; z++) {//z helps us for loop and trial count
+
+            x = (int) ((Math.random() * 2 - 1) * 10) / 10.0;
+            y = (int) ((Math.random() * 2 - 1) * 10) / 10.0;
+
+            System.out.println("Dart :" + z + "\n" + "Coordinates: " + "(" + x + "," + y + ")");
+
+            if (x > 0 && y > 0 && (x + y < 1)) {
+                System.out.println("Region : A");
+                A++;
+            } else if (x > 0 && y > 0 && (x + y > 1)) {
+                System.out.println("Region : B");
+                B++;
+            } else if (x < 0 && y > 0) {
+                System.out.println("Region : C");
+                C++;
+            }  else if (x < 0 && y < 0 && (x < y)) {
+                System.out.println("Region : D");
+                D++;
+            } else if (x < 0 && y < 0 && (x > y)) {
+                System.out.println("Region : E");
+                E++;
+            }
+            else if (x > 0 && y < 0) {
+                System.out.println("Region : F");
+                F++;
+            } else if ((x + y == 1) || (x == y)) {
+                System.out.println("Region : Undecided");
+                undecided++;
+
+            } else {
+                break;
+            }
+
+            System.out.println("\n");
+        }
+
+        System.out.println("Let's see the statistics now! : \n"
+                + "A: " + A + " (%" + (A * 100) / num + ")\n"
+                + "B: " + B + " (%" + (B * 100) / num + ")\n"
+                + "C: " + C + " (%" + (C * 100) / num + ")\n"
+                + "D: " + D + " (%" + (D * 100) / num + ")\n"
+                + "E: " + E + " (%" + (E * 100) / num + ")\n"
+                + "F: " + F + " (%" + (F * 100) / num + ")\n"
+                + "Undecided: " + undecided + " (%" + (undecided * 100) / num + ")");
+
+    }
+
+}
