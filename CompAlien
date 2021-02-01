@@ -1,0 +1,255 @@
+import java.util.Arrays;
+import java.util.Random;
+import java.util.Scanner;
+
+public class CompAlien {
+
+    public static String random() {
+
+        String[] alien = {"X", "Y", "Z"};
+
+        Random randomly = new Random();
+
+        String Str = "";
+
+        for (int i = 0; i < 128; i++) {
+            int which = randomly.nextInt(alien.length);
+            Str += alien[which];
+
+        }
+        return Str;
+
+    }
+
+    public static int[] health(String[] fr, int n) {
+        int health = 0;
+        int[] heal = new int[n];
+
+        for (int z = 0; z < n; z++) {
+            for (int i = 0; i < 126; i++) {
+                if ("YXZ".equals(fr[z].substring(i, i + 3))) {
+                    health++;
+
+                }
+
+            }
+            heal[z] += health;
+        }
+
+        return heal;
+    }
+
+    public static String flyAbility() {
+        String a = random().substring(0, 1);
+        String b = random().substring(127, 128);
+
+        String flyAbility = "";
+        if (a.equals(b)) {
+            flyAbility = " has ";
+        } else {
+            flyAbility = " doesn't have ";
+        }
+
+        return flyAbility;
+    }
+
+    public static String magicAbility() {
+        String ability = "";
+        String magic = random().substring(1, 2);
+        if ("Y".equals(magic)) {
+
+            ability = "have ability of magic";
+
+        } else {
+            ability = "don't have ability of magic";
+
+        }
+
+        return ability;
+    }
+
+    public static String[] gender(String[] fr, int n) {
+        String gender = "";
+        String[] gendy = new String[n];
+        Arrays.fill(gendy, "");
+        for (int z = 0; z < n; z++) {
+            String discr = fr[z].substring(127);
+
+            if ("Y".equals(discr)) {
+                gender = "male";
+            } else {
+                gender = "female";
+            }
+            gendy[z] += gender;
+        }
+        return gendy;
+    }
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter the size of population: ");
+        int n = input.nextInt();
+        System.out.println("Simulating compAlien species...");
+        System.out.println("-------------------------------------------");
+
+        String[] magic = new String[n];
+        Arrays.fill(magic, "");
+        String[] fr = new String[n];
+        Arrays.fill(fr, "");
+        String[] tr = new String[n];
+        Arrays.fill(tr, "");
+        int[] healthy = new int[n];
+        int acc = 0;
+
+        for (int z = 0; z < n; z++) {
+
+            fr[z] += random();
+            tr[z] += flyAbility();
+            magic[z] += magicAbility();
+
+        }
+        int[] heal = health(fr, n);
+
+        String[] gen = gender(fr, n);
+
+        healthy[0] += heal[0];
+
+        for (int i = 1; i < n; i++) {
+
+            int x = (heal[i] - heal[i - 1]);
+            healthy[i] += x;
+
+        }
+
+        for (int ss = 0; ss < n; ss++) {
+            if ("male".equals(gen[ss])) {
+                acc++;
+            }
+        }
+        double x = (acc * 100) / fr.length;
+
+        System.out.println("Choose an option: \n"
+                + "1.Mate two compAliens  \n"
+                + "2.Randomly mate a set of compAliens \n"
+                + "3.Show statistics  \n"
+                + "4.Show who has magic ability \n"
+                + "5.Show who has fly ability \n"
+        );
+
+        int action = input.nextInt();
+        double offspring = 0.0;
+        if (action == 1) {
+            System.out.println("Enter id: ");
+            int id1 = input.nextInt();
+            System.out.println("Enter second id: ");
+            int id2 = input.nextInt();
+            double N;
+            Arrays.sort(healthy);
+
+            int max1 = healthy[healthy.length - 1];
+            int max2 = healthy[healthy.length - 2];
+            N = (max1 + max2) / 100.0;
+
+            if (!gen[id1 - 1].equals(gen[id2 - 1])) {
+                offspring = (int) ((healthy[id1 - 1] + healthy[id2 - 1]) / N);
+
+            }
+            System.out.println("offspring chance is: %" + offspring);
+            if (offspring >= 50) {
+                System.out.println("the offspring is: 1  :)");
+            } else {
+                System.out.println("the offspring is: 0");
+            }
+        } else if (action == 2) {
+            System.out.println("Enter an amount of aliens: ");
+            int b = input.nextInt();
+            
+            Random randomly = new Random();
+           
+            for (int a = 0; a < b; a++) {
+                String gend = "";
+                String gend2 = "";
+                String result = "";
+                double N;
+                Arrays.sort(healthy);
+
+                int max1 = healthy[healthy.length - 1];
+                int max2 = healthy[healthy.length - 2];
+                N = (max1 + max2) / 100.0;
+
+                int first = randomly.nextInt(fr.length);
+                int second = randomly.nextInt(fr.length);
+                if (gen[first].equals("female") && gen[second].equals("female")) {
+                    offspring = 0.0;
+
+                } else if (gen[first].equals("male") && gen[second].equals("male")) {
+                    offspring = 0.0;
+                } else {
+                    offspring = (int) ((healthy[first + 1] + healthy[second + 1]) / N);
+                }
+
+                if (("male".equals(gen[first]))) {
+                    gend = "(M)";
+                }
+                if (("female".equals(gen[first]))) {
+                    gend = "(F)";
+
+                }
+                if ("male".equals(gen[second])) {
+                    gend2 = "(M)";
+                }
+                if (("female".equals(gen[second]))) {
+                    gend2 = "(F)";
+                }
+                if (offspring >= 50) {
+                    result = "1 offspring";
+                } else {
+                    result = "no offspring";
+                }
+                System.out.println("Alien " + (first + 1) + gend + " and " + "Alien " + (second + 1) + gend2 + " mate: %" + offspring + ". Result: " + result);
+               
+            }
+        } else if (action == 3) {
+            System.out.println("male population is: % " + x);
+            System.out.println("female population is: % " + (100 - x));
+            System.out.println("Enter a health threshold: ");
+            Random randomly = new Random();
+
+            int hth = input.nextInt();
+            int stat = 0;
+            int say = 0;
+            int eye = 0;
+            int fly = 0;
+            for (int h = 0; h < n; h++) {
+                int redeye = randomly.nextInt(fr.length);
+                if (healthy[h] >= hth) {
+                    stat++;
+                }
+                if ("have ability of magic".equals(magic[h])) {
+                    say++;
+                }
+                if ("YYY".equals(fr[redeye].substring(63, 66))) {
+                    eye++;
+                }
+                if (" has ".equals(tr[h])) {
+                    fly++;
+                }
+            }
+            System.out.println(((stat * 100) / fr.length) + "% of compAlien population have an health of " + hth + " or higher.");
+            System.out.println(((say * 100) / fr.length) + "% of compAlien population have magic ability.");
+            System.out.println(((eye * 100) / fr.length) + "% of compAlien population have red eye.");
+            System.out.println(((fly * 100) / fr.length) + "% of compAlien population have fly abilty.");
+
+        } else if (action == 4) {
+            for (int h = 0; h < n; h++) {
+                System.out.println("ID: " + (h + 1) + "  " + magic[h]);
+            }
+
+        } else if (action == 5) {
+            for (int h = 0; h < n; h++) {
+                System.out.println("ID: " + (h + 1) + tr[h] + "fly ability.");
+            }
+        }
+
+    }
+}
